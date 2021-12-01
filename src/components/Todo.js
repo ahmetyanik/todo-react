@@ -2,8 +2,6 @@ import React from "react";
 
 function Todo(props) {
 
-
-
   return (
     <div className= "m-2">
       <div className="card">
