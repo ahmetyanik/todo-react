@@ -4,6 +4,24 @@ import Todo from "./Todo";
 function TodoList() {
   const [todos, setTodos] = useState([]);
 
+  const array = [];
+
+  todos.forEach((todo) => {
+    array.push(todo);
+  });
+
+  function changeStateFromTodoButton(data, index) {
+    array[index].erledigt = data;
+
+    setTodos(array);
+  }
+
+  function sendDeleteFunction(index) {
+    array.splice(index, 1);
+
+    setTodos(array);
+  }
+
   function createTodo() {
     const array = [];
 
@@ -29,20 +47,15 @@ function TodoList() {
     createTodo();
   }, []);
 
-
- 
   return (
-    <div>
+    <div style={{ minHeight: "70vh" }}>
       <div className="d-flex justify-content-center mt-5 mb-2">
         <input />
         <button onClick={createTodo} className="btn btn-success">
           ADD
         </button>
       </div>
-      <div
-        style={{ minHeight: "80vh" }}
-        className="d-flex flex-wrap justify-content-center"
-      >
+      <div className="d-flex flex-wrap justify-content-center">
         {todos.map((todo, index) => {
           if (todo.message.length > 0) {
             return (
@@ -50,6 +63,9 @@ function TodoList() {
                 key={index}
                 erledigt={todo.erledigt}
                 message={todo.message}
+                indexno={index}
+                onButton={changeStateFromTodoButton}
+                onDelete={sendDeleteFunction}
               />
             );
           }
