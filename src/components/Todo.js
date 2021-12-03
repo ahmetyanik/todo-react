@@ -35,10 +35,10 @@ function Todo({ erledigt, message, onButton, indexno, onDelete }) {
               indexno={indexno}
               id="erledigt"
               className={`btn btn-primary text-light ${
-                erledigt ? "bg-danger" : "bg-success"
+                erledigt ? "bg-light" : "bg-success"
               }`}
             >
-              {erledigt ? "Nicht Erledigt" : "✔"}
+              {erledigt ? "❌" : "✔"}
             </button>
 
             <button
