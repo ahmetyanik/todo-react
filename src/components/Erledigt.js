@@ -4,14 +4,14 @@ function Erledigt({ allTodos }) {
   return (
 
     <div>
-    <h3>Erledigt</h3>
+    <h3 className="text-light">Erledigt</h3>
     <div className="d-flex justify-content-center align-items-center flex-column">
       
       {allTodos.map((todo, index) => {
         return todo.erledigt === true ? (
-          <div class="card bg-success text-light">
-            <div class="card-body">{todo.message}</div>
-          </div>
+          <ul key = {index} className="text-light">
+            <li style={{listStyle:"none"}} className="bg-success p-1 rounded">{todo.message}</li>
+          </ul>
         ) : null;
       })}
     </div>

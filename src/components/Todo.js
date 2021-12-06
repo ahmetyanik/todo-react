@@ -15,7 +15,7 @@ function Todo({ erledigt, message, onButton, indexno, onDelete }) {
 
   return (
     <div className="m-2">
-      <div className="card">
+      <div className="card" style={{minWidth:"300px"}}>
         <h5
           className={`card-header text-light ${
             erledigt ? "bg-success" : "bg-danger"
@@ -25,16 +25,16 @@ function Todo({ erledigt, message, onButton, indexno, onDelete }) {
         </h5>
         <div className="card-body ">
           <div className="d-flex justify-content-center">
-            <p className="card-text">
+            <p className="card-text text-wrap">
               {indexno + 1}- {message}
             </p>
           </div>
-          <div className="d-flex justify-content-center">
+          <div className="d-flex justify-content-between">
             <button
               onClick={sendtoTodoList}
               indexno={indexno}
               id="erledigt"
-              className={`btn btn-primary text-light ${
+              className={`d-flex justify-content-around btn btn-primary text-light  ${
                 erledigt ? "bg-light" : "bg-success"
               }`}
             >

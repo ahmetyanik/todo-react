@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Erledigt from "./Erledigt";
 import NichtErledigt from "./NichtErledigt";
 import Todo from "./Todo";
+import "../style/todolist.scss";
 
 function TodoList() {
   const [todos, setTodos] = useState([]);
@@ -45,15 +46,12 @@ function TodoList() {
     input.value = "";
   }
 
-  useEffect(() => {
-    createTodo();
-  }, []);
 
   return (
-    <div style={{ minHeight: "40vh" }}>
-      <div className="d-flex justify-content-center mt-5 mb-2">
+    <div id="todolist" style={{minHeight:"88vh"}}>
+      <div className="d-flex justify-content-center pt-5 mb-2">
         <input />
-        <button onClick={createTodo} className="btn btn-success">
+        <button onClick={createTodo} className="btn btn-info mx-2">
           ADD
         </button>
       </div>
@@ -73,7 +71,7 @@ function TodoList() {
           }
         })}
       </div>
-      <div style={{minHeight:"30vh"}} className="container d-flex justify-content-lg-between mt-5">
+      <div style={{minHeight:"30vh"}} className="container d-flex justify-content-between mt-5">
 
 
             <Erledigt allTodos = {todos}/>
