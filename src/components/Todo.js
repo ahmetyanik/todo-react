@@ -1,49 +1,42 @@
 import React from "react";
 
-function Todo({ erledigt, message, onButton, indexno, onDelete }) {
-  function sendtoTodoList(e) {
-    const index = parseInt(e.target.getAttribute("indexno"));
+function Todo({element,index,dispatch}) {
 
-    onButton(!erledigt, index);
-  }
+  const date = new Date();
 
-  function deleteItem(e) {
-    const index = parseInt(e.target.getAttribute("indexno"));
-
-    onDelete(index);
-  }
+  const completedDate = date.toLocaleString();
 
   return (
     <div className="m-2">
       <div className="card" style={{minWidth:"300px"}}>
         <h5
           className={`card-header text-light ${
-            erledigt ? "bg-success" : "bg-danger"
+            element.erledigt ? "bg-success" : "bg-danger"
           }`}
         >
-          {erledigt ? "Erledigt" : "Noch nicht Erledigt"}
+          {element.erledigt ? "Completed" : "Not Completed"}
         </h5>
         <div className="card-body ">
           <div className="d-flex justify-content-center">
             <p className="card-text text-wrap">
-              {indexno + 1}- {message}
+              {index + 1}- {element.message}
             </p>
           </div>
           <div className="d-flex justify-content-between">
             <button
-              onClick={sendtoTodoList}
-              indexno={indexno}
+              onClick={()=> dispatch({type :"toggle", payload:{index:index,completedDate:completedDate}})}
+              index={index}
               id="erledigt"
               className={`d-flex justify-content-around btn btn-primary text-light  ${
-                erledigt ? "bg-light" : "bg-success"
+                element.erledigt ? "bg-light" : "bg-success"
               }`}
             >
-              {erledigt ? "❌" : "✔"}
+              {element.erledigt ? "❌" : "✔"}
             </button>
 
             <button
-              onClick={deleteItem}
-              indexno={indexno}
+              onClick={()=>dispatch({type:"delete", payload:{index:index}})}
+              index={index}
               className="btn btn-dark ms-1"
             >
               🗑

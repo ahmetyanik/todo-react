@@ -1,16 +1,21 @@
 import React from "react";
+import "../style/erledigt.scss";
 
-function Erledigt({ allTodos }) {
+function Erledigt({ state }) {
+
+console.log(state);
+
   return (
 
     <div>
-    <h3 className="text-light">Erledigt</h3>
+    <h3 className="text-light">Completed</h3>
     <div className="d-flex justify-content-center align-items-center flex-column">
       
-      {allTodos.map((todo, index) => {
+      {state.map((todo, index) => {
+
         return todo.erledigt === true ? (
           <ul key = {index} className="text-light">
-            <li style={{listStyle:"none"}} className="bg-success p-1 rounded">{todo.message}</li>
+            <li style={{listStyle:"none"}} className="bg-success p-1 rounded"><div>{todo.message}</div> <hr/> <div>Completed Date: {todo.completedDate}</div></li>
           </ul>
         ) : null;
       })}

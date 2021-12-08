@@ -1,83 +1,137 @@
-import React, { useState } from "react";
+import React, {useReducer } from "react";
 import Erledigt from "./Erledigt";
 import NichtErledigt from "./NichtErledigt";
 import Todo from "./Todo";
 import "../style/todolist.scss";
 
-function TodoList() {
-  const [todos, setTodos] = useState([]);
 
-  const array = [];
 
-  todos.forEach((todo) => {
-    array.push(todo);
-  });
+const reducer = (state,action) =>{  
 
-  function changeStateFromTodoButton(data, index) {
-    array[index].erledigt = data;
+    const date = new Date();
+    const todoText = action.payload.text;
 
-    setTodos(array);
-  }
 
-  function sendDeleteFunction(index) {
-    array.splice(index, 1);
+  const index = action.payload.index;
+  const erledigtDate = action.payload.completedDate;
 
-    setTodos(array);
-  }
 
-  function createTodo() {
-    const array = [];
+  console.log(erledigtDate);
+  
 
-    todos.forEach((e) => {
-      array.push(e);
-    });
+  switch (action.type) {
+    case "add":
 
-    const input = document.querySelector("input");
     const todo = {
-      erledigt: false,
-      message: input.value,
-    };
-
-    if (todo.message.length > 0) {
-      array.push(todo);
+      erledigt :false,
+      message : todoText,
+      createdDate : date.toLocaleString(),
+      completedDate : "",
     }
 
-    setTodos(array);
-    input.value = "";
+    const result = [...state, {...todo}]
+
+    console.log(result);
+      return result;
+      
+    case "toggle":
+    
+    const array = [];
+
+    for(let i=0;i<state.length;i++){
+
+      if(index===i){
+      const newObject = {...state[index],erledigt:!state[index].erledigt,completedDate:erledigtDate}
+
+      array.push(newObject);
+
+      }else{
+        array.push(state[i]);
+      }
+    }
+     return array;
+
+     case "delete":
+
+     const array2 =[...state];
+    
+     array2.splice(index,1);
+
+     return array2;
+    
+     
+      
+  
+    default:
+    return state;
   }
 
+}
+
+const initialTodo = [];
+
+
+function TodoList() { 
+ 
+const [state, dispatch] = useReducer(reducer, initialTodo)
+
+console.log(state);
+
+let inputText ="";
+
+function eventHandler(e){
+
+  inputText = e.target.value;  
+    
+}
+
+function addButtonHandler(){
+  const input = document.querySelector("input");
+  
+  dispatch({type:"add", payload:{text:inputText}})
+
+  input.value = "";
+}
 
   return (
     <div id="todolist" style={{minHeight:"88vh"}}>
-      <div className="d-flex justify-content-center pt-5 mb-2">
-        <input />
-        <button onClick={createTodo} className="btn btn-info mx-2">
+
+        <div className="d-flex justify-content-center align-items-center pt-5 mb-2">
+        <input onChange={eventHandler} />
+        <button onClick={addButtonHandler}  className="btn btn-info mx-2">
           ADD
         </button>
       </div>
-      <div className="d-flex flex-wrap justify-content-center">
-        {todos.map((todo, index) => {
-          if (todo.message.length > 0) {
-            return (
-              <Todo
-                key={index}
-                erledigt={todo.erledigt}
-                message={todo.message}
-                indexno={index}
-                onButton={changeStateFromTodoButton}
-                onDelete={sendDeleteFunction}
-              />
-            );
-          }
-        })}
+
+  <div className="d-flex justify-content-center align-items-center flex-wrap">
+
+      {
+        state.map((element,index)=>{
+          return(
+          <Todo key={index} element={element} index={index} dispatch={dispatch}/>
+          )
+
+        })
+      }
+
       </div>
-      <div style={{minHeight:"30vh"}} className="container d-flex justify-content-between mt-5">
 
 
-            <Erledigt allTodos = {todos}/>
-            <NichtErledigt allTodos = {todos}/>
+     
 
-        </div>
+      {       
+
+        state.length>0 ? 
+
+      <div className="d-flex justify-content-around">
+      <Erledigt state={state}/>
+      <NichtErledigt state={state}/>
+
+      </div>
+
+      : null
+      }
+
     </div>
   );
 }
